@@ -8,7 +8,9 @@ export const MenuCard = (props) => {
           <button className="btn btn-primary">
             U
           </button>
-        <button className="btn btn-danger">X</button>
+        <button className="btn btn-danger" onClick={e => {
+          props.onDeleteMenu({id: props.id})
+        }}>X</button>
         </div>
         <img
           className="card-img-top"

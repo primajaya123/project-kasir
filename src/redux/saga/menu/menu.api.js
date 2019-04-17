@@ -1,9 +1,12 @@
 import axios from 'axios'
+import {
+    formData
+} from '../../../utils/helper'
 export const getMenus = async () => {
     return await axios({
-            url: '/menu/makanan',
-            method: 'get'
-        })
+        url: '/menu/makanan',
+        method: 'get'
+    })
         .then(response => ({
             response: {
                 ...response.data
@@ -15,12 +18,26 @@ export const getMenus = async () => {
 }
 
 export const addMenu = async (payload) => {
-    console.log(payload)
     return await axios({
-        url: '/menu/makanan',
+        url: '/menu/makanan?type=' + payload.type,
         method: 'post',
-        data: payload
+        data: formData(payload.data)
     })
-        .then(response => ({response: {...response.data}}))
-        .catch(error => ({error}))
+        .then(response => ({
+            response: {
+                ...response.data
+            }
+        }))
+        .catch(error => ({
+            error
+        }))
+}
+
+export const deleteMenus = async (payload) => {
+    return await axios({
+        url: '/menu/makanan?id=' + payload.id,
+        method: 'delete'
+    })
+        .then(response => ({ ...response.data }))
+        .catch(error => ({ error }))
 }

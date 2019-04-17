@@ -1,4 +1,4 @@
-import { SIGN_IN, AUTH_SUCCESS, CHECK_AUTH, GET_MENUS, ADD_MENU } from "../types";
+import { SIGN_IN, AUTH_SUCCESS, CHECK_AUTH, GET_MENUS, ADD_MENU, DELETE_MENU } from "../types";
 
 export const signIn = (payload) => {
     return {
@@ -29,6 +29,13 @@ export const getAllMenu = () => {
 export const addNewMenu = payload => {
     return {
         type: ADD_MENU,
+        payload
+    }
+}
+
+export const deleteMenu = payload => {
+    return {
+        type: DELETE_MENU,
         payload
     }
 }
