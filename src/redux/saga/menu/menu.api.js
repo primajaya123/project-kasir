@@ -41,3 +41,35 @@ export const deleteMenus = async (payload) => {
         .then(response => ({ ...response.data }))
         .catch(error => ({ error }))
 }
+
+export const editMenu = async (payload) => {
+    console.log(payload.imageUrl)
+    if (payload.imageUrl !== '') {
+        return await axios({
+            url: `/menu/makanan?id=${payload.id}&img=true`,
+            method: 'put',
+            data: formData({
+                nama: payload.nama,
+                harga: payload.harga,
+                stok: payload.stok,
+                tipe: payload.tipe,
+                imageUrl: payload.imageUrl
+            })
+        })
+            .then(response => ({ response: { ...response.data } }))
+            .catch(error => ({ error }))
+    } else {
+        return await axios({
+            url: '/menu/makanan?id=' + payload.id + '&img=false',
+            method: 'put',
+            data: {
+                nama: payload.nama,
+                harga: payload.harga,
+                stok: payload.stok,
+                tipe: payload.tipe
+            }
+        })
+            .then(response => ({ response: { ...response.data } }))
+            .catch(error => ({ error }))
+    }
+}

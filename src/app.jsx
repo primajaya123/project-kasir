@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import Payment from './components/payment';
 import MainRoutes from './routes';
-import { signIn, checkAuth, getAllMenu, addNewMenu, deleteMenu } from './redux/actions';
+import { signIn, checkAuth, getAllMenu, addNewMenu, deleteMenu, editData, editMenu } from './redux/actions';
 import AdminPage from './pages/admin';
 import MenuOrders from './pages/menu';
 
@@ -78,6 +78,12 @@ const mapDispatchToProps = (dispatch) => {
         },
         onDeleteMenu: payload => {
             return dispatch(deleteMenu(payload))
+        },
+        onEditData: payload => {
+            return dispatch(editData(payload))
+        },
+        onChangeMenu: payload => {
+            return dispatch(editMenu(payload))
         }
     }
 }

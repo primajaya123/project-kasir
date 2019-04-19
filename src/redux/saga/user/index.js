@@ -6,14 +6,14 @@ import {
 import { auth } from "./user.api";
 import { SIGN_IN, AUTH_SUCCESS, CHECK_AUTH, AUTH_FAILED } from "../../types";
 
-function* login (action) {
+function* login(action) {
     try {
-        const {response, error} = yield call(auth, action.payload)
-        if(response) {
+        const { response, error } = yield call(auth, action.payload)
+        if (response) {
             localStorage.setItem('id', response.id)
             localStorage.setItem('token', response.token)
             localStorage.setItem('nama', response.nama)
-            if(response.nama === 'admin') {
+            if (response.nama === 'admin') {
                 yield put({
                     type: AUTH_SUCCESS,
                     payload: {
@@ -23,31 +23,32 @@ function* login (action) {
                     }
                 })
             } else {
-                yield put({type: AUTH_SUCCESS, payload: {auth: true, ...response}})
+                yield put({ type: AUTH_SUCCESS, payload: { auth: true, ...response } })
             }
+            location.reload()
         } else {
             yield put({
-                type: AUTH_FAILED, 
+                type: AUTH_FAILED,
                 payload: {
                     message: error.response.data.message
                 }
             })
         }
-    } catch (error) {}
+    } catch (error) { }
 }
 
-function* checkAuth (action) {
+function* checkAuth(action) {
     try {
-        if(!!localStorage.getItem('token')) {
-            if(localStorage.getItem('nama') === 'admin') {
-                yield put({type: AUTH_SUCCESS, payload: {auth: true, admin: true}})
+        if (!!localStorage.getItem('token')) {
+            if (localStorage.getItem('nama') === 'admin') {
+                yield put({ type: AUTH_SUCCESS, payload: { auth: true, admin: true } })
             } else {
-                yield put({type: AUTH_SUCCESS, payload: {auth: true, admin: false}})
+                yield put({ type: AUTH_SUCCESS, payload: { auth: true, admin: false } })
             }
         } else {
-            yield put({type: AUTH_SUCCESS, payload: {auth: false}})
+            yield put({ type: AUTH_SUCCESS, payload: { auth: false } })
         }
-    } catch (error) {}
+    } catch (error) { }
 }
 
 export function* userSaga() {

@@ -1,10 +1,11 @@
 import {
-    MENUS, MENU_NOTIFY
+    MENUS, MENU_NOTIFY, EDIT_DATA
 } from "../types";
 
 const initialState = {
     menus: [],
-    message: ''
+    message: '',
+    DataMenu: {}
 }
 
 const menuReducers = (state = initialState, action) => {
@@ -18,6 +19,11 @@ const menuReducers = (state = initialState, action) => {
             return {
                 ...state,
                 ...action.payload
+            }
+        case EDIT_DATA:
+            return {
+                ...state,
+                DataMenu: action.payload
             }
         default:
             return state

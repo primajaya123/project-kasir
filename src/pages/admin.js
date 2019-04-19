@@ -2,15 +2,16 @@ import React, { Component } from 'react'
 
 export default class AdminPage extends Component {
   state = {
+    id: '',
     nama: '',
     harga: 0,
     stok: 0,
     tipe: 'makanan',
     img: '',
-    imageUrl: Object
+    type: "",
+    imageUrl: ''
   }
   onChange(e) {
-    console.log(e.target.name)
     this.setState({
       [e.target.name]: e.target.value
     })
@@ -24,6 +25,9 @@ export default class AdminPage extends Component {
   }
 
   componentWillReceiveProps(nextProps, nextState) {
+    this.setState({
+      ...nextProps.DataMenu
+    })
     if (!!nextProps.message.affectedRows) {
       if (nextProps.message.affectedRows === 1) {
 
@@ -34,16 +38,24 @@ export default class AdminPage extends Component {
     }
   }
   render() {
-
+    const { nama, harga, stok, tipe, imageUrl, type, id } = this.state
     return (
       <React.Fragment>
         <form onSubmit={(e) => {
-          const { nama, harga, stok, tipe, imageUrl } = this.state
-          this.props.onAddMenu({ data: { nama, harga, stok, tipe, imageUrl }, type: tipe })
-          this.setState({ img: '', nama: '', harga: 0, stok: 0, tipe: 'makanan' })
           e.preventDefault()
+          type === 'edit_data' ?
+            this.props.onChangeMenu({ id, nama, harga, stok, tipe, imageUrl })
+            :
+            this.props.onAddMenu({ data: { nama, harga, stok, tipe, imageUrl }, type: tipe });
+          this.setState({ type: '', img: '', nama: '', harga: 0, stok: 0, tipe: 'makanan' })
         }}>
-          <div className="text-center">Tambah Data Makanan</div>
+          <div className="text-center">
+            {
+              type === 'edit_data' ?
+                'Ubah Data Makanan' :
+                'Tambah Data Makanan'
+            }
+          </div>
           <br />
           <div className="form-group">
             <label htmlFor="nama">Nama</label>
@@ -69,8 +81,32 @@ export default class AdminPage extends Component {
             <input type="file" className="form-control-file" id="exampleFormControlFile1" onChange={this.onChangeFile.bind(this)} />
           </div>
           <div className="form-group">
-            <button className="form-control btn btn-success">Tambahkan</button>
+            <button type="submit" className="form-control btn btn-success">
+              {
+                this.state.type === 'edit_data' ?
+                  "Ubah" : "Tambah"
+              }
+            </button>
           </div>
+
+          {
+            this.state.type === 'edit_data' ?
+              <div className="form-group">
+                <button className="form-control btn btn-secondary" onClick={e => {
+                  this.setState({
+                    nama: '',
+                    harga: 0,
+                    stok: 0,
+                    tipe: 'makanan',
+                    img: '',
+                    type: ''
+                  })
+                }}>
+                  batal
+              </button>
+              </div>
+              : null
+          }
         </form>
         <br /><br /><br /><br />
         <div className="text-center">

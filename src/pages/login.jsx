@@ -12,14 +12,12 @@ export default class LoginPage extends Component {
         }
     }
     componentDidMount() {
-        console.log(this.props)
         if (this.props.auth) {
             this.props.history.replace("/");
         }
     }
 
     componentWillReceiveProps(props, state) {
-        this.setState({ auth: props.auth })
         !props.auth ?
             this.setState({ message: props.messageUser }) :
             location.reload()

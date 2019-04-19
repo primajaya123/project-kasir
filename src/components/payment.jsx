@@ -1,13 +1,13 @@
 import React, { Component, Fragment } from 'react'
-import { LOGOUT } from '../redux/types';
 
 export default class Payment extends Component {
+
   render() {
     return (
       <Fragment>
         <div className="payment garis w-100 navbar navbar-expand-lg navbar-dark bg-dark">
           <div className="navbar-nav">
-            <div className="nav-item font-weight-light">Wed, Jul 22, 2019<br/>10.48</div>
+            <div className="nav-item font-weight-light">Wed, Jul 22, 2019<br />10.48</div>
             <div className="nav-item font-weight-light">{localStorage.getItem('nama')}</div>
             <button className="btn btn-primary nav-item" onClick={(e) => {
               location.replace('/')
@@ -61,17 +61,17 @@ export default class Payment extends Component {
           </div>
         </div>
         <div className="p-5 mt-1">
-            <div className="px-5 py-2 row justify-content-center">
-                <button className="btn btn-outline-secondary btn-lg btn-block">CASH</button>
-            </div>
-            <div className="px-5 py-2 row justify-content-center">
-                <button className="btn btn-outline-secondary btn-lg btn-block">DEBIT / KREDIT</button>
-            </div>
+          <div className="px-5 py-2 row justify-content-center">
+            <button className="btn btn-outline-secondary btn-lg btn-block">CASH</button>
+          </div>
+          <div className="px-5 py-2 row justify-content-center">
+            <button className="btn btn-outline-secondary btn-lg btn-block">DEBIT / KREDIT</button>
+          </div>
         </div>
         <div className="p-5">
-            <div className="px-5 row justify-content-center">
-                <button className="btn btn-secondary btn-lg btn-block text-light">PURCHASE</button>
-            </div>
+          <div className="px-5 row justify-content-center">
+            <button className="btn btn-secondary btn-lg btn-block text-light">PURCHASE</button>
+          </div>
         </div>
       </Fragment>
     );
