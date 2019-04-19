@@ -6,6 +6,7 @@
 .card {
     .d-item {
         display: none;
+        position: relative;
     }
 }
 
@@ -19,5 +20,16 @@
         right: 0;
         left: 0;
         background: rgba(0, 0, 0, 0.224);
+        button {
+            position: absolute;
+        }
+        button:nth-child(1) {
+            top: 40%;
+            left: 20%
+        }
+        button:nth-child(2) {
+            top: 40%;
+            left: 65%;
+        }
     }
 }

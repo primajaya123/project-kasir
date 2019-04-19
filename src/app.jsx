@@ -1,14 +1,14 @@
 import React, { Component, Fragment } from 'react'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 import Payment from './components/payment';
 import MainRoutes from './routes';
-import { signIn, checkAuth, getAllMenu, addNewMenu } from './redux/actions';
+import { signIn, checkAuth, getAllMenu, addNewMenu, deleteMenu, editData, editMenu } from './redux/actions';
 import AdminPage from './pages/admin';
 import MenuOrders from './pages/menu';
 
 class App extends Component {
     constructor(props) {
-      super(props)
+        super(props)
     };
 
     componentDidMount() {
@@ -20,11 +20,11 @@ class App extends Component {
             <Fragment>
                 {
                     this.props.auth ?
-                    this.props.admin ?
+                        this.props.admin ?
                             <div className="d-md-flex h-md-100">
                                 <div className="p-0 col-md-8 bg-indigo h-md-100">
                                     <div className="content-body container">
-                                    <div className="text-center">Menu Makanan</div>
+                                        <div className="text-center">Menu Makanan</div>
                                         <MenuOrders {...this.props} />
                                     </div>
                                 </div>
@@ -34,21 +34,21 @@ class App extends Component {
                                     </div>
                                 </div>
                             </div>
-                    :
-                    <div className="d-md-flex h-md-100">
-                        <div className="p-0 col-md-8 bg-indigo h-md-100">                
-                            <div className="content-body container">
-                            <MainRoutes {...this.props} />
+                            :
+                            <div className="d-md-flex h-md-100">
+                                <div className="p-0 col-md-8 bg-indigo h-md-100">
+                                    <div className="content-body container">
+                                        <MainRoutes {...this.props} />
+                                    </div>
+                                </div>
+                                <div className="col-md-4 bg-dark fixed-right">
+                                    <div className="text-light">
+                                        <Payment {...this.props} />
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div className="col-md-4 bg-dark fixed-right">
-                            <div className="text-light">
-                                <Payment {...this.props} />
-                            </div>
-                        </div>
-                    </div>
-                    :
-                    <MainRoutes {...this.props} />
+                        :
+                        <MainRoutes {...this.props} />
                 }
             </Fragment>
         );
@@ -75,6 +75,15 @@ const mapDispatchToProps = (dispatch) => {
         },
         onAddMenu: payload => {
             return dispatch(addNewMenu(payload))
+        },
+        onDeleteMenu: payload => {
+            return dispatch(deleteMenu(payload))
+        },
+        onEditData: payload => {
+            return dispatch(editData(payload))
+        },
+        onChangeMenu: payload => {
+            return dispatch(editMenu(payload))
         }
     }
 }

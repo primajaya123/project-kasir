@@ -2,47 +2,61 @@ import React, { Component } from 'react'
 
 export default class AdminPage extends Component {
   state = {
-      nama: '',
-      harga: 0,
-      stok: 0,
-      tipe: 'makanan',
-      img: ''
+    id: '',
+    nama: '',
+    harga: 0,
+    stok: 0,
+    tipe: 'makanan',
+    img: '',
+    type: "",
+    imageUrl: ''
   }
   onChange(e) {
-      console.log(e.target.name)
-      this.setState({
-          [e.target.name]: e.target.value
-      })
-      e.preventDefault()
+    this.setState({
+      [e.target.name]: e.target.value
+    })
+    e.preventDefault()
   }
   onChangeFile(e) {
-      this.setState({
-          img: URL.createObjectURL(e.target.files[0])
-      })
+    this.setState({
+      img: URL.createObjectURL(e.target.files[0]),
+      imageUrl: e.target.files[0]
+    })
   }
 
   componentWillReceiveProps(nextProps, nextState) {
-      if(!!nextProps.message.affectedRows) {
-        if (nextProps.message.affectedRows === 1) {
+    this.setState({
+      ...nextProps.DataMenu
+    })
+    if (!!nextProps.message.affectedRows) {
+      if (nextProps.message.affectedRows === 1) {
 
-              window.alert('Data berhasil ditambahkan')
-        } else {
-            window.alert('Data gagal ditambahkan')
-        }
+        window.alert('Data berhasil ditambahkan')
+      } else {
+        window.alert('Data gagal ditambahkan')
       }
+    }
   }
   render() {
-    
+    const { nama, harga, stok, tipe, imageUrl, type, id } = this.state
     return (
-        <React.Fragment>
-      <form onSubmit={(e) => {
-          const {nama, harga, stok, tipe} = this.state
-          this.setState({img: '', nama: '', harga: 0, stok: 0, tipe: 'makanan'})
-          this.props.onAddMenu({nama, harga, stok, tipe})
+      <React.Fragment>
+        <form onSubmit={(e) => {
           e.preventDefault()
-      }}>
-        <div className="text-center">Tambah Data Makanan</div>
-        <br/>
+          type === 'edit_data' ?
+            this.props.onChangeMenu({ id, nama, harga, stok, tipe, imageUrl })
+            :
+            this.props.onAddMenu({ data: { nama, harga, stok, tipe, imageUrl }, type: tipe });
+          this.setState({ type: '', img: '', nama: '', harga: 0, stok: 0, tipe: 'makanan' })
+        }}>
+          <div className="text-center">
+            {
+              type === 'edit_data' ?
+                'Ubah Data Makanan' :
+                'Tambah Data Makanan'
+            }
+          </div>
+          <br />
           <div className="form-group">
             <label htmlFor="nama">Nama</label>
             <input type="text" id="nama" className="form-control" value={this.state.nama} onChange={this.onChange.bind(this)} name="nama" />
@@ -57,26 +71,50 @@ export default class AdminPage extends Component {
           </div>
           <div className="form-group">
             <select name="tipe" id="tipe" className="form-control" value={this.state.tipe} onChange={this.onChange.bind(this)}>
-                <option value="makanan">Makanan</option>
-                <option value="minuman">Minuman</option>
+              <option value="makanan">Makanan</option>
+              <option value="minuman">Minuman</option>
             </select>
           </div>
           <div className="form-group">
             <label htmlFor="exampleFormControlFile1"></label>
-            <img src={this.state.img} alt="" style={{width: '100px'}}/>
+            <img src={this.state.img} alt="" style={{ width: '100px' }} />
             <input type="file" className="form-control-file" id="exampleFormControlFile1" onChange={this.onChangeFile.bind(this)} />
           </div>
           <div className="form-group">
-            <button className="form-control btn btn-success">Tambahkan</button>
+            <button type="submit" className="form-control btn btn-success">
+              {
+                this.state.type === 'edit_data' ?
+                  "Ubah" : "Tambah"
+              }
+            </button>
           </div>
-      </form>
-        <br/><br/><br/><br/>
-      <div className="text-center">
-        <button className="btn btn-primary" onClick={e => {
+
+          {
+            this.state.type === 'edit_data' ?
+              <div className="form-group">
+                <button className="form-control btn btn-secondary" onClick={e => {
+                  this.setState({
+                    nama: '',
+                    harga: 0,
+                    stok: 0,
+                    tipe: 'makanan',
+                    img: '',
+                    type: ''
+                  })
+                }}>
+                  batal
+              </button>
+              </div>
+              : null
+          }
+        </form>
+        <br /><br /><br /><br />
+        <div className="text-center">
+          <button className="btn btn-primary" onClick={e => {
             localStorage.clear()
             location.reload()
-        }}>Logout</button>
-      </div>
+          }}>Logout</button>
+        </div>
       </React.Fragment>
     )
   }

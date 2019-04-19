@@ -18,21 +18,22 @@ export default class MenuOrders extends Component {
     })
   }
   render() {
-      const {menus,auth} = this.props
-      // console.log(menus)
-      const mymenu = auth ? menus.map((v,i) => {
-        return (
-            <div className="col-3" key={i}>
-                <MenuCard 
-                    {...v}
-                />
-            </div>
-        )
-      }) : null
+    const { menus, auth } = this.props
+    // console.log(menus)
+    const mymenu = auth ? menus.map((v, i) => {
+      return (
+        <div className="col-3" key={i}>
+          <MenuCard
+            {...v}
+            {...this.props}
+          />
+        </div>
+      )
+    }) : null
     return (
       <div className="menu">
         <div className="row">
-            {mymenu}
+          {mymenu}
         </div>
       </div>
     )
